@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .navbar-custom {
+            background-color: yellow;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1030; /* Ensure it stays above other content */
+        }
+        .navbar-custom .nav-link {
+            color: black;
+        }
+        .navbar-custom .nav-link.active {
+            background-color: black;
+            color: yellow;
+        }
+        body {
+            padding-top: 70px; /* Adjust based on header height */
+        }
+    </style>
+</head>
+<body>
+    <!--HEADER-->
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom navbar-custom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Simple header</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+        </ul>
+    </header>
+    <div class="container mt-4">
+        <h1>Engine Inspection Form</h1>
+        <form action="/<%=next.toLowerCase()%>">
+            <!-- Rust, Dents or Damage in Engine -->
+            <div class="mb-3">
+                <label class="form-label">Rust, Dents or Damage in Engine</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rustDamage" id="rustDamageYes" value="Yes" required>
+                    <label class="form-check-label" for="rustDamageYes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rustDamage" id="rustDamageNo" value="No" required>
+                    <label class="form-check-label" for="rustDamageNo">No</label>
+                </div>
+                <div class="mb-3 mt-2">
+                    <label for="rustDamageNotes" class="form-label">If Yes, explain in notes</label>
+                    <textarea class="form-control" id="rustDamageNotes" rows="3" placeholder="Enter details here"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="rustDamageImages" class="form-label">Attach Images</label>
+                    <input type="file" class="form-control" id="rustDamageImages" multiple>
+                </div>
+            </div>
+
+            <!-- Engine Oil Condition -->
+            <div class="mb-3">
+                <label for="engineOilCondition" class="form-label">Engine Oil Condition</label>
+                <select class="form-select" id="engineOilCondition" required>
+                    <option value="">Select an option</option>
+                    <option value="Good">Good</option>
+                    <option value="Bad">Bad</option>
+                </select>
+            </div>
+
+            <!-- Engine Oil Color -->
+            <div class="mb-3">
+                <label for="engineOilColor" class="form-label">Engine Oil Color</label>
+                <select class="form-select" id="engineOilColor" required>
+                    <option value="">Select an option</option>
+                    <option value="Clean">Clean</option>
+                    <option value="Brown">Brown</option>
+                    <option value="Black">Black</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Brake Fluid Condition -->
+            <div class="mb-3">
+                <label for="brakeFluidCondition" class="form-label">Brake Fluid Condition</label>
+                <select class="form-select" id="brakeFluidCondition" required>
+                    <option value="">Select an option</option>
+                    <option value="Good">Good</option>
+                    <option value="Bad">Bad</option>
+                </select>
+            </div>
+
+            <!-- Brake Fluid Color -->
+            <div class="mb-3">
+                <label for="brakeFluidColor" class="form-label">Brake Fluid Color</label>
+                <select class="form-select" id="brakeFluidColor" required>
+                    <option value="">Select an option</option>
+                    <option value="Clean">Clean</option>
+                    <option value="Brown">Brown</option>
+                    <option value="Black">Black</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Any Oil Leak in Engine -->
+            <div class="mb-3">
+                <label class="form-label">Any Oil Leak in Engine</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="oilLeak" id="oilLeakYes" value="Yes" required>
+                    <label class="form-check-label" for="oilLeakYes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="oilLeak" id="oilLeakNo" value="No" required>
+                    <label class="form-check-label" for="oilLeakNo">No</label>
+                </div>
+            </div>
+
+            <!-- Overall Summary -->
+            <div class="mb-3">
+                <label for="engineSummary" class="form-label">Overall Summary</label>
+                <textarea class="form-control" id="engineSummary" rows="3" maxlength="1000" placeholder="Enter details here (max 1000 characters)" required></textarea>
+            </div>
+
+            <!-- Attached Images -->
+            <div class="mb-3">
+                <label for="engineImages" class="form-label">Attach Images</label>
+                <input type="file" class="form-control" id="engineImages" multiple>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit and proceed to <%=next%></button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                    <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+                <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+            </div>
+        
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+            </ul>
+        </footer>
+    </div>
+</body>
+</html>

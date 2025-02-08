@@ -1,0 +1,85 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Input Form</title>
+    <style>
+        .highlight {
+            border: 2px solid green;
+            background-color: #eaffea; /* Light green background */
+        }
+        .field-container {
+            margin-bottom: 10px;
+        }
+        .field-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Voice Input Form</h1>
+    <form id="inputForm" action="/submit-response" method="POST">
+        <!-- Fields are dynamically generated here -->
+        <% for (let i = 1; i <= numFields; i++) { %>
+            <div class="field-container">
+                <label for="field<%= i %>"><%= fieldNames[i-1] %>:</label>
+                <input type="text" id="field<%= i %>" name="field<%= i %>">
+            </div>
+        <% } %>
+        <input type="hidden" id="currentFieldIndex" name="currentFieldIndex" value="">
+    </form>
+    <button onclick="startVoiceRecognition()">Start Voice Input</button>
+
+    <script>
+        // Inject the fieldMap object correctly
+        const fieldMap = <%= JSON.stringify(fieldMap) %>;
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.continuous = false;
+
+        let currentFieldIndex = null;
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript.trim();
+            console.log('You said:', transcript);
+
+            // Remove previous highlight
+            if (currentFieldIndex) {
+                document.getElementById(`field${currentFieldIndex}`).classList.remove('highlight');
+            }
+
+            // Check if the transcript matches any field name
+            if (fieldMap[transcript] !== undefined) {
+                currentFieldIndex = fieldMap[transcript];
+                const field = document.getElementById(`field${currentFieldIndex}`);
+                field.focus();
+                field.classList.add('highlight');
+            } else {
+                // If a value is provided for the currently active field
+                if (currentFieldIndex) {
+                    document.getElementById(`field${currentFieldIndex}`).value = transcript;
+                    document.getElementById('inputForm').submit(); // Optionally submit the form
+                    currentFieldIndex = null; // Reset after submission
+                }
+            }
+        };
+
+        recognition.onend = function() {
+            // Optionally restart recognition if needed
+            recognition.start();
+        };
+
+        function startVoiceRecognition() {
+            // Ensure the form is not submitted prematurely
+            if (currentFieldIndex !== null) {
+                recognition.start();
+            }
+        }
+    </script>
+</body>
+</html>
